@@ -24,18 +24,19 @@ tap.test("POST /tasks with invalid data", async (t) => {
 });
 
 tap.test("GET /tasks", async (t) => {
-  const response = await server.get("/tasks");
-  t.equal(response.status, 200);
-  t.hasOwnProp(response.body[0], "id");
-  t.hasOwnProp(response.body[0], "title");
-  t.hasOwnProp(response.body[0], "description");
-  t.hasOwnProp(response.body[0], "completed");
-  t.type(response.body[0].id, "number");
-  t.type(response.body[0].title, "string");
-  t.type(response.body[0].description, "string");
-  t.type(response.body[0].completed, "boolean");
-  t.end();
+    const response = await server.get("/tasks");
+    t.equal(response.status, 200);
+    t.hasOwnProp(response.body[0], "id");
+    t.hasOwnProp(response.body[0], "title");
+    t.hasOwnProp(response.body[0], "description");
+    t.hasOwnProp(response.body[0], "completed");
+    t.type(response.body[0].id, "number");
+    t.type(response.body[0].title, "string");
+    t.type(response.body[0].description, "string");
+    t.type(response.body[0].completed, "boolean");
+    t.end();
 });
+
 
 tap.test("GET /tasks/:id", async (t) => {
   const response = await server.get("/tasks/1");
