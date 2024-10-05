@@ -3,6 +3,18 @@ const path = require("path");
 
 const filePath = path.join(__dirname, '../', 'task.json');
 
+/**
+ * Retrieves a list of tasks from a JSON file, optionally filtered and ordered.
+ *
+ * @param {Object} [query] - An optional query object for filtering tasks.
+ * @param {string} [query.completed] - Filter tasks by their completion status (e.g., "true" or "false").
+ * @param {string} [query.level] - Filter tasks by their priority level.
+ * @param {Object} [orderBy] - An optional object specifying the sorting order.
+ * @param {string} [orderBy.field='id'] - The field to sort by ('id' or 'createdAt').
+ * @param {boolean} [orderBy.asc=true] - Sort in ascending order (true) or descending order (false).
+ * @returns {Promise<Object>} A promise that resolves with an object containing the tasks.
+ * @throws {Error} If there is an error reading the file or parsing the JSON data.
+ */
 const findAll = (query, orderBy = {
   field: 'id',
   asc: true
@@ -40,6 +52,14 @@ const findAll = (query, orderBy = {
   });
 });
 
+
+/**
+ * Finds a task by its ID.
+ *
+ * @param {number} taskId - The ID of the task to find.
+ * @returns {Promise<Object>} A promise that resolves with the found task object.
+ * @throws {Error} If the task is not found or if there's an error retrieving tasks.
+ */
 const findById = (taskId) => new Promise(async (resolve, reject) => {
   try {
     const {tasks} = await findAll();
@@ -54,6 +74,18 @@ const findById = (taskId) => new Promise(async (resolve, reject) => {
   }
 });
 
+
+/**
+ * Writes a new task to the JSON file.
+ *
+ * @param {Object} newTask - The new task object to be added.
+ * @param {string} newTask.title - The title of the new task.
+ * @param {string} newTask.description - The description of the new task.
+ * @param {string} newTask.priority - The priority level of the new task.
+ * @param {boolean} [newTask.completed=false] - The completion status of the new task (defaults to false).
+ * @returns {Promise<Object>} A promise that resolves with the newly added task object.
+ * @throws {Error} If there is an error writing to the file or retrieving existing tasks.
+ */
 const writeTasks = (newTask) => new Promise(async (resolve, reject) => {
   try {
     const {tasks} = await findAll();
@@ -80,6 +112,19 @@ const writeTasks = (newTask) => new Promise(async (resolve, reject) => {
   }
 });
 
+
+/**
+ * Updates an existing task in the JSON file by its ID.
+ *
+ * @param {number} taskId - The ID of the task to update.
+ * @param {Object} task - The updated task object.
+ * @param {string} [task.title] - The updated title of the task.
+ * @param {string} [task.description] - The updated description of the task.
+ * @param {string} [task.priority] - The updated priority level of the task.
+ * @param {boolean} [task.completed] - The updated completion status of the task.
+ * @returns {Promise<Object>} A promise that resolves with the updated task object.
+ * @throws {Error} If the task is not found or if there's an error writing to the file.
+ */
 const updateTaskById = (taskId, task) => new Promise(async (resolve, reject) => {
   try {
     const {tasks} = await findAll();
@@ -105,6 +150,14 @@ const updateTaskById = (taskId, task) => new Promise(async (resolve, reject) => 
   }
 });
 
+
+/**
+ * Deletes a task from the JSON file by its ID.
+ *
+ * @param {number} taskId - The ID of the task to delete.
+ * @returns {Promise<string>} A promise that resolves with a success message.
+ * @throws {Error} If the task is not found or if there's an error writing to the file.
+ */
 const deleteTask = (taskId) => new Promise(async (resolve, reject) => {
   try {
     const {tasks} = await findAll();
